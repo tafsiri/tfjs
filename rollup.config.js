@@ -19,8 +19,10 @@ import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import node from 'rollup-plugin-node-resolve';
 import resolve from 'rollup-plugin-node-resolve';
+import sourcemaps from 'rollup-plugin-sourcemaps';
 import typescript from 'rollup-plugin-typescript2';
 import uglify from 'rollup-plugin-uglify';
+
 
 const copyright =
     `// @tensorflow/tfjs Copyright ${(new Date).getFullYear()} Google`;
@@ -44,6 +46,7 @@ function config({plugins = [], output = {}, external = []}) {
           }
         }
       }),
+
       node(),
       // Polyfill require() from dependencies.
       commonjs({
@@ -56,14 +59,15 @@ function config({plugins = [], output = {}, external = []}) {
         },
       }),
       json(),
+      sourcemaps(),
       // We need babel to compile the compiled_api.js generated proto file from
       // es6 to es5.
-      babel(),
+      // babel(),
       ...plugins,
     ],
     output: {
       banner: copyright,
-      sourcemap: true,
+      sourcemap: 'inline',
       ...output,
     },
     external: [
@@ -91,7 +95,7 @@ export default [
     }
   }),
   config({
-    plugins: [minify()],
+    // plugins: [minify()],
     output: {
       format: 'umd',
       name: 'tf',
@@ -100,7 +104,7 @@ export default [
     }
   }),
   config({
-    plugins: [minify()],
+    // plugins: [minify()],
     output: {
       format: 'es',
       file: 'dist/tf.esm.js',
