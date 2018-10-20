@@ -67,7 +67,7 @@ function config({plugins = [], output = {}, external = []}) {
     ],
     output: {
       banner: copyright,
-      sourcemap: 'inline',
+      sourcemap: true,
       ...output,
     },
     external: [
@@ -95,7 +95,7 @@ export default [
     }
   }),
   config({
-    // plugins: [minify()],
+    plugins: [minify()],
     output: {
       format: 'umd',
       name: 'tf',
@@ -104,7 +104,7 @@ export default [
     }
   }),
   config({
-    // plugins: [minify()],
+    plugins: [minify()],
     output: {
       format: 'es',
       file: 'dist/tf.esm.js',
